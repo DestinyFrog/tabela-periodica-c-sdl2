@@ -1,0 +1,2 @@
+sudo apt-get install libsdl2-ttf-dev libsdl2-ttf libsdl2-dev-ttf libsdl2-2.0-0 -y;
+make
