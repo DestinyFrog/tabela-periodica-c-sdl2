@@ -17,7 +17,9 @@ int border = 10,
     text_unit = 28,
     gap = 2,
     width,
-    height, i, j;
+    height,
+    length,
+    i, j;
 
 TTF_Font* font = NULL;
 
@@ -35,11 +37,9 @@ void awake() {
 SDL_Rect r;
 SDL_Rect text_r;
 
-SDL_Color White = {255, 255, 255};
 SDL_Surface* text_surface;
 SDL_Texture* text_texture;
-
-int length;
+SDL_Color color;
 
 void draw() {
     SDL_SetRenderDrawColor( render, 0, 0, 0, 255 );
@@ -53,7 +53,10 @@ void draw() {
         r.x = border + elements[i].x * (unit + gap);
         r.y = border + elements[i].y * (unit + gap);
 
-        SDL_SetRenderDrawColor( render, 255, 255, 255, 255 );
+        color = category_to_color(elements[i].category);
+        color.a = 255;
+
+        SDL_SetRenderDrawColor( render, color.r, color.g, color.b, color.a );
 		SDL_RenderDrawRect( render, &r );
 
         for (length = 0; elements[i].symbol[length] != '\0'; length++);
@@ -62,7 +65,7 @@ void draw() {
         text_r.x = r.x + unit/2 - (text_unit/2) + (length == 1 ? (text_r.w/2) : 0);
         text_r.y = r.y + unit/2 - (text_unit/2);
 
-        text_surface = TTF_RenderText_Solid( font, elements[i].symbol, White );
+        text_surface = TTF_RenderText_Solid( font, elements[i].symbol, color );
         text_texture = SDL_CreateTextureFromSurface( render, text_surface );
         SDL_RenderCopy( render, text_texture, NULL, &text_r );
         SDL_DestroyTexture( text_texture );
@@ -90,13 +93,14 @@ int main() {
 		return EXIT_FAILURE;
 	}
 
+    SDL_SetRenderDrawBlendMode( render, SDL_BLENDMODE_BLEND );
+
     draw();
 
     do {
         SDL_PollEvent( &window_event );
         SDL_Delay(10);
-    }
-    while ( SDL_QUIT != window_event.type );
+    }   while ( SDL_QUIT != window_event.type );
 
     TTF_CloseFont(font);
     TTF_Quit();
