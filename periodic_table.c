@@ -107,7 +107,7 @@ int main() {
 
     awake();
 
-    window = SDL_CreateWindow( "SOLAR", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_ALLOW_HIGHDPI );
+    window = SDL_CreateWindow( "TABELA PERIÓDICA", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_ALLOW_HIGHDPI );
 	if ( window == ((void*)0) ) {
         printf( "Error creating window: %s", SDL_GetError() );
 		return EXIT_FAILURE;
